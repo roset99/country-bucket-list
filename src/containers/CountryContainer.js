@@ -14,6 +14,16 @@ const CountryContainer = () => {
    useEffect(() => {
        getCountriesData();
    }, []);
+
+//    const updateWantToVisit = (id) => {
+//         const countryToUpdate = countries.find(country => country.id === id);
+//         countryToUpdate.wantToVisit = true;
+//    }
+
+//    const updateVisited = (id) => {
+//     const countryToUpdate = countries.find(country => country.id === id);
+//     countryToUpdate.visited = true;
+// }
    
    return (
        countries.length > 0 ?
