@@ -7,14 +7,16 @@ import './MyMap.css';
 
 const MyMap = ({cardAppears, countries}) =>  {
     //This isn't working but should let you choose the colour of the countries when you click on it
-    const [color, setColor] = useState("#00ff59");
-    
+    const [color, setColor] = useState("#8000ff")
+    const fillPinkOption = { fillColor: "pink" };
+    const fillGreenOption = { fillColor: "green" };
+    const fillBlackOption = { fillColor: "#222", color: "white", weight: 1.5, };
 
     const printMessageToConsole = (event) => {
         console.log("clicked")
     }
 
-    const changeCountryColor = (event) => {
+    const cardAppearsClick = (event) => {
         // event.target.setStyle({
         //     color: "red",
         //     fillColor: color,
@@ -22,6 +24,16 @@ const MyMap = ({cardAppears, countries}) =>  {
         // })
         cardAppears(event.target.feature.properties.ISO_A3);
         
+    }
+    const changeCountryColor =(event) => {
+        event.target.setStyle({
+            color: "white",
+            fillColor: color,
+            fillOpacity: 0.3,
+        })
+    }
+    const removeColor = (event) => {
+        event.target.setStyle(fillBlackOption)
     }
 
     // const changeCountryISO = (countryISO) => {
@@ -35,41 +47,42 @@ const MyMap = ({cardAppears, countries}) =>  {
         // console.log(country);
         // console.log(countryISO)
         layer.bindPopup(countryName);
-        const countryToModifyIndex = countries.indexOf(countries.find(country => country.cca3 == countryISO));
-        console.log(countryName)
-        console.log(countryToModifyIndex);
-        if (countryToModifyIndex==-1) {
-
-        } else if (countries[countryToModifyIndex].visited) {
-            layer.setStyle({
-                fillColor: "lightgreen",
-            })
-        } else if (countries[countryToModifyIndex].wantToVisit) {
-            layer.setStyle({
-                fillColor: "pink",
-            })
-        }
+        countryStyle(country);
 
         layer.on({
-            click: changeCountryColor,
+            click: cardAppearsClick,
             // click: cardAppears(countryISO),
-            // mouseover: this.changeCountryColor
+            mouseover: changeCountryColor
         })
+        // layer.off({
+        //     mouseover: removeColor,
+        // })
     }
     
-    const countryStyle = () => {
-        return{
-            fillColor: color,
-            color: "black",
-            weight: 2,
+    const countryStyle = (country) => {
+
+        const countryISO = country.properties.ISO_A3;
+        const countryToModifyIndex = countries.indexOf(countries.find(country => country.cca3 === countryISO));
+        if (countryToModifyIndex==-1) {
+            return fillBlackOption;
+
+        } else if (countries[countryToModifyIndex].visited) {
+            console.log(2);
+            return fillGreenOption;
+        } else if (countries[countryToModifyIndex].wantToVisit) {
+            console.log(3);
+            return fillPinkOption;
+        } else{
+            return fillBlackOption;
+
         }
-            
+        
        
     }
 
     const mapStyle = {
         height: "80vh",
-        width: "80%",
+        width: "100%",
     }
 
     const colorChange = (event) => {
@@ -78,10 +91,12 @@ const MyMap = ({cardAppears, countries}) =>  {
 
     return (
         <div>
-            <h1>Bucket List!</h1>
-            <MapContainer style={mapStyle} zoom={2} center={[20,21]}>
-                <GeoJSON style={countryStyle} data={mapData.features} onEachFeature={onEachCountry}/>
-            </MapContainer>
+            <div className="mapBorder">
+                <MapContainer style={mapStyle} zoom={2} center={[20,21]}>
+                    <GeoJSON style={fillBlackOption} data={mapData.features} onEachFeature={onEachCountry}/>
+                </MapContainer>
+            </div>
+            
             <input type="color" value={color} onChange={colorChange}/>
         </div>
         

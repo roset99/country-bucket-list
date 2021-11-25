@@ -29,6 +29,7 @@ const Country = ({ country, onWantToVisitClick, onVisitedClick }) => {
 
     return (
         <div className={buttonClassNameLogic()}>
+            
 
 
             <h2 className="name">Name: {country.name.common}</h2>
