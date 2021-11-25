@@ -1,30 +1,30 @@
 import { useState } from 'react';
 import './Country.css';
 
-const Country = ({ country }) => {
+const Country = ({ country, onWantToVisitClick, onVisitedClick }) => {
 
-    const [wantToVisit, setVisit] = useState(false);
-    const [visited, setVisited] = useState(false);
+    // const [wantToVisit, setVisit] = useState();
+    // const [visited, setVisited] = useState(false);
 
     const buttonClassNameLogic = () => {
-        if (wantToVisit) {
-            if (visited) {
+        if (country.wantToVisit) {
+            if (country.visited) {
                 return "countryCard-visited"
             } else {
                 return "countryCard-wantToVisit"
             }
-        } else if (visited) {
+        } else if (country.visited) {
             return "countryCard-visited"
         } else {
             return "countryCard"
         }
     }
     const updateWantToVisit = () => {
-        setVisit(!wantToVisit);
+        onWantToVisitClick(country.cca3);
     }
 
     const updateVisited = () => {
-        setVisited(!visited);
+        onVisitedClick(country.cca3);
     }
 
     return (

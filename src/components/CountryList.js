@@ -1,10 +1,10 @@
 import Country from './Country';
 
-const CountryList = ({countries}) => {
+const CountryList = ({countries, onWantToVisitClick, onVisitedClick}) => {
 
     const CountryComponents = countries.map(country => {
         return(
-            <Country country={country}/>
+            <Country country={country} onWantToVisitClick={onWantToVisitClick} onVisitedClick={onVisitedClick}/>
         )
     })
 
